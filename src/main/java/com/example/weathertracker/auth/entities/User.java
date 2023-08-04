@@ -2,20 +2,32 @@ package com.example.weathertracker.auth.entities;
 
 import com.example.weathertracker.weather.entities.Location;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
-@Data
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(length = 36, columnDefinition = "varchar", updatable = false, nullable = false)
+    private UUID id;
+
     private String login;
     private String password;
+
+    @Version
+    private Integer version;
 
     @ManyToMany
     @JoinTable(name = "user_location",
