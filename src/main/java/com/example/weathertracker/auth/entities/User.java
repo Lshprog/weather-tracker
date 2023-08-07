@@ -4,6 +4,8 @@ import com.example.weathertracker.weather.entities.Location;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,14 +22,15 @@ public class User {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(length = 36, columnDefinition = "varchar", updatable = false, nullable = false)
+    @JdbcTypeCode(SqlTypes.CHAR)
+    @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID id;
 
+    @Column(length = 12, columnDefinition = "varchar(12)", nullable = false, unique = true)
     private String login;
-    private String password;
 
-    @Version
-    private Integer version;
+    @Column(length = 60, columnDefinition = "varchar(60)", nullable = false)
+    private String password;
 
     @ManyToMany
     @JoinTable(name = "user_location",
