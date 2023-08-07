@@ -34,3 +34,6 @@ build/
 
 ### Mac ###
 .DS_Store
+
+### MySQL properties ###
+src/main/resources/application-localmysql.properties
