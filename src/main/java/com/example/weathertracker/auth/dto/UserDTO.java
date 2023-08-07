@@ -13,7 +13,7 @@ import java.util.UUID;
 public class UserDTO {
     private UUID id;
     private String login;
-    private Integer version;
+    private String password;
     private Set<Location> locations;
 
 }
