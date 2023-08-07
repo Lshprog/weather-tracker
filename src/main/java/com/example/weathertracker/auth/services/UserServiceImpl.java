@@ -8,6 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -21,7 +25,37 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User save(UserDTO newuser){
+    public List<UserDTO> listUsers() {
+        return null;
+    }
+
+    @Override
+    public Optional<UserDTO> getUserById(UUID id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<UserDTO> getUserByLogin(String login) {
+        return Optional.empty();
+    }
+
+    @Override
+    public void updateUserById(UUID id, UserDTO user) {
+
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+
+    }
+
+    @Override
+    public void patchUserById(UUID id, UserDTO user) {
+
+    }
+
+    @Override
+    public User saveNewUser(UserDTO newuser){
 
         User user = new User();
         user.setLogin(newuser.getLogin());

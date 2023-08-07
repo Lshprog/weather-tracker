@@ -4,9 +4,23 @@ import com.example.weathertracker.auth.dto.UserDTO;
 import com.example.weathertracker.auth.entities.User;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public interface UserService {
 
-    User save(UserDTO newuser);
+    List<UserDTO> listUsers();
+
+    Optional<UserDTO> getUserById(UUID id);
+
+    Optional<UserDTO> getUserByLogin(String login);
+
+    void updateUserById(UUID id, UserDTO user);
+
+    void deleteById(UUID id);
+
+    void patchUserById(UUID id, UserDTO user);
+
+    User saveNewUser(UserDTO newuser);
 
 }
