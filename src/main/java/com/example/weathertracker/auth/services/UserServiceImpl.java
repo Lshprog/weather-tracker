@@ -1,6 +1,7 @@
 package com.example.weathertracker.auth.services;
 
 
+import com.example.weathertracker.auth.common.exceptions.UserAlreadyExistsException;
 import com.example.weathertracker.auth.dto.UserDTO;
 import com.example.weathertracker.auth.entities.User;
 import com.example.weathertracker.auth.repositories.UserRepository;
@@ -55,7 +56,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User saveNewUser(UserDTO newuser){
+    public User saveNewUser(UserDTO newuser) throws UserAlreadyExistsException{
+
+        if(userRepository.findByLogin(newuser.getLogin())!=null){
+            throw new UserAlreadyExistsException("User with this username/email already exists.");
+        }
 
         User user = new User();
         user.setLogin(newuser.getLogin());

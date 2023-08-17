@@ -1,19 +1,27 @@
 package com.example.weathertracker.auth.dto;
 
 import com.example.weathertracker.weather.entities.Location;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
+
+import jakarta.validation.constraints.*;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class UserDTO {
-    private UUID id;
+    //private UUID id;
+    @NotNull
+    @NotEmpty
     private String login;
+    @NotNull
+    @NotEmpty
     private String password;
-    private Set<Location> locations;
+    //private Set<Location> locations;
 
 }

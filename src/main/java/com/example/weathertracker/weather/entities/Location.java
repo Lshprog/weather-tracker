@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -30,6 +31,7 @@ public class Location {
     private double longitude;
 
     @ManyToMany(mappedBy = "locations")
-    private Set<User> users;
+    private Set<User> users = new HashSet<>();
+
 
 }

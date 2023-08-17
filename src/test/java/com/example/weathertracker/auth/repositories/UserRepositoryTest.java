@@ -1,26 +1,32 @@
-package com.example.weathertracker.weather.repositories;
+package com.example.weathertracker.auth.repositories;
 
 import com.example.weathertracker.auth.entities.User;
-import com.example.weathertracker.auth.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
+@SpringBootTest
 class UserRepositoryTest {
 
     @Autowired
     UserRepository userRepository;
 
     @Test
+    @Transactional
     void testSaveUser(){
         User saveduser = userRepository.save(User.builder()
-                        .login("smth")
-                        .password("2231")
+                .login("smthelse")
+                .password("2231")
                 .build());
 
+        System.out.println("before checks");
         assertThat(saveduser).isNotNull();
         assertThat(saveduser.getId()).isNotNull();
 

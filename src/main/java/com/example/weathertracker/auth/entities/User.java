@@ -38,4 +38,14 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "location_id"))
     private Set<Location> locations = new HashSet<>();
 
+    public void addLocation(Location location){
+        this.locations.add(location);
+        location.getUsers().add(this);
+    }
+
+    public void removeLocation(Location location){
+        this.locations.remove(location);
+        location.getUsers().remove(this);
+    }
+
 }
