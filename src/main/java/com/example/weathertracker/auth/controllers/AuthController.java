@@ -1,18 +1,22 @@
 package com.example.weathertracker.auth.controllers;
 
+import java.util.logging.Logger;
+
 import com.example.weathertracker.auth.common.exceptions.UserAlreadyExistsException;
 import com.example.weathertracker.auth.dto.UserDTO;
 import com.example.weathertracker.auth.entities.User;
 import com.example.weathertracker.auth.services.UserService;
 import com.example.weathertracker.auth.services.UserServiceImpl;
-import io.netty.channel.unix.Errors;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,6 +26,19 @@ public class AuthController {
 
     private UserServiceImpl userService;
 
+    @Autowired
+    public AuthController(UserServiceImpl userService) {
+        this.userService = userService;
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder dataBinder) {
+
+        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+
+        dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
+    }
+
     @GetMapping("/login")
     public String showLoginForm(WebRequest request, Model model){
 
@@ -29,36 +46,79 @@ public class AuthController {
 
         model.addAttribute(userDTO);
 
-        return "registration";
-    }
-
-    @PostMapping("/login")
-    public String processLogin(){
-        return null;
+        return "auth/login";
     }
 
     @GetMapping("/register")
-    public String showRegistrationForm() {
-        return null;
+    public String showRegistrationForm(WebRequest request, Model model) {
+        UserDTO userDTO = new UserDTO();
+
+        model.addAttribute(userDTO);
+
+        return "auth/registration";
     }
 
+//    @PostMapping("/register")
+//    public ModelAndView processRegistration(@Valid @ModelAttribute("userDTO") UserDTO userDTO,
+//                                            HttpServletRequest request, HttpSession session,
+//                                            BindingResult theBindingResult) {
+//
+//        ModelAndView mav = new ModelAndView();
+//
+//        System.out.println("before");
+//
+//        if (theBindingResult.hasErrors()){
+//            mav.addObject("userDTO", userDTO);
+//            mav.setViewName("auth/registration");
+//            return mav;
+//        }
+//
+//        System.out.println("after");
+//
+//        try {
+//            User registered = userService.saveNewUser(userDTO);
+//        }
+//        catch (UserAlreadyExistsException uaeEx){
+//            mav.setViewName("auth/registration");
+//            mav.addObject("registrationError", "An account for that username already exists.");
+//            mav.addObject("userDTO", userDTO);
+//            return mav;
+//        }
+//
+//        mav.setViewName("auth/registration_confirmation"); // Set the view name
+//        mav.addObject("username", userDTO.getUsername());
+//
+//        return mav;
+//    }
+
+
     @PostMapping("/register")
-    public ModelAndView processRegistration(@ModelAttribute("user") UserDTO userDTO, HttpServletRequest request, Errors errors) {
-        ModelAndView mav = new ModelAndView();
+    public String processRegistration(@ModelAttribute("userDTO") @Valid UserDTO userDTO,
+                                      HttpSession session,
+                                            BindingResult theBindingResult, Model theModel) {
+
+        System.out.println("before");
+
+        if (theBindingResult.hasErrors()){
+            return "auth/registration";
+        }
+
+        System.out.println("after");
+
         try {
             User registered = userService.saveNewUser(userDTO);
         }
         catch (UserAlreadyExistsException uaeEx){
-            mav.setViewName("registration");
-            mav.addObject("message", "An account for that username already exists.");
-            return mav;
+            theModel.addAttribute("userDTO", new UserDTO());
+            theModel.addAttribute("registrationError",
+                    "An account for that username already exists.");
+            return "auth/registration";
         }
 
-        mav.setViewName("successRegistration"); // Set the view name
-        mav.addObject("user", userDTO);
+        // Set the view name
+        theModel.addAttribute("username", userDTO.getUsername());
 
-        return mav;
+        return "auth/registration_confirmation";
     }
-
 
 }

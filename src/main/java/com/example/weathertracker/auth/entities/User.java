@@ -27,7 +27,7 @@ public class User {
     private UUID id;
 
     @Column(length = 12, columnDefinition = "varchar(12)", nullable = false, unique = true)
-    private String login;
+    private String username;
 
     @Column(length = 60, columnDefinition = "varchar(60)", nullable = false)
     private String password;

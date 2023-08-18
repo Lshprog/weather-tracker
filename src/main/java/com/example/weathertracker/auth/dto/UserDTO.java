@@ -5,10 +5,6 @@ import lombok.*;
 
 import jakarta.validation.constraints.*;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,10 +13,13 @@ import java.util.UUID;
 public class UserDTO {
     //private UUID id;
     @NotNull
-    @NotEmpty
-    private String login;
+    @NotEmpty(message = "Username cannot be empty")
+    @Size(min=1, message = "is required")
+    private String username;
+
     @NotNull
-    @NotEmpty
+    @NotEmpty(message = "Password cannot be empty")
+    @Size(min=1, message = "is required")
     private String password;
     //private Set<Location> locations;
 

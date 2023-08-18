@@ -6,6 +6,8 @@ import com.example.weathertracker.auth.dto.UserDTO;
 import com.example.weathertracker.auth.entities.User;
 import com.example.weathertracker.auth.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +38,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserDTO> getUserByLogin(String login) {
+    public Optional<UserDTO> getUserByUsername(String username) {
         return Optional.empty();
     }
 
@@ -58,14 +60,34 @@ public class UserServiceImpl implements UserService {
     @Override
     public User saveNewUser(UserDTO newuser) throws UserAlreadyExistsException{
 
-        if(userRepository.findByLogin(newuser.getLogin())!=null){
-            throw new UserAlreadyExistsException("User with this username/email already exists.");
+        if(userRepository.findByUsername(newuser.getUsername())!=null){
+            throw new UserAlreadyExistsException("User with this username already exists.");
         }
 
         User user = new User();
-        user.setLogin(newuser.getLogin());
+        user.setUsername(newuser.getUsername());
         user.setPassword(passwordEncoder.encode(newuser.getPassword()));
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public User findByUserName(String userName) {
+        return userRepository.findByUsername(userName);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+
+        if(user==null){
+            throw new UsernameNotFoundException("No user found with username: " + username);
+        }
+
+        return org.springframework.security.core.userdetails.User
+                .withUsername(user.getUsername())
+                .password(user.getPassword())
+                .roles("USER")
+                .build();
     }
 }
