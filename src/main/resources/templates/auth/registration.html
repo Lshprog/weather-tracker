@@ -56,10 +56,9 @@
                             <input type="text" th:field="*{username}" placeholder="Username (*)" class="form-control" />
                         </div>
 
-                        <div th:if="${#fields.hasErrors('username')}"
-                             style="margin-bottom: 25px" class="text-danger">
+                        <div th:if="${usernameError}" class="text-danger">
                             <ul>
-                                <li th:each="err : ${#fields.errors('username')}" th:text="'User name ' + ${err}" />
+                                <li th:text="${usernameError}" />
                             </ul>
                         </div>
 
@@ -68,10 +67,9 @@
                             <input type="password" th:field="*{password}" placeholder="Password (*)" class="form-control" />
                         </div>
 
-                        <div th:if="${#fields.hasErrors('password')}"
-                             style="margin-bottom: 25px" class="text-danger">
+                        <div th:if="${passwordError}" class="text-danger">
                             <ul>
-                                <li th:each="err : ${#fields.errors('password')}" th:text="'Password ' + ${err}" />
+                                <li th:text="${passwordError}" />
                             </ul>
                         </div>
 

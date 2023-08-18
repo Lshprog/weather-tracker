@@ -109,7 +109,7 @@ public class AuthController {
             User registered = userService.saveNewUser(userDTO);
         }
         catch (UserAlreadyExistsException uaeEx){
-            theModel.addAttribute("userDTO", new UserDTO());
+            theModel.addAttribute("userDTO",  userDTO);
             theModel.addAttribute("registrationError",
                     "An account for that username already exists.");
             return "auth/registration";
