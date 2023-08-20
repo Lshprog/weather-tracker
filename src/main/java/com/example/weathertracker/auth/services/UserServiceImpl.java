@@ -84,10 +84,11 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException("No user found with username: " + username);
         }
 
+        System.out.println("Works");
+
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getUsername())
                 .password(user.getPassword())
-                .roles("USER")
                 .build();
     }
 }

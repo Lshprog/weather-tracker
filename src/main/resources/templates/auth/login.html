@@ -1,10 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Login Page</title>
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
-
+<h2>Login</h2>
+<form action="#" th:action="@{/auth/login}"
+      th:object="${userDTO}"
+      method="POST">
+    <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required="required" th:class="${#fields.hasErrors('username')} ? 'error' : ''" />
+        <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></span>
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required="required" th:class="${#fields.hasErrors('password')} ? 'error' : ''" />
+        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></span>
+    </div>
+    <div>
+        <button type="submit">Log In</button>
+    </div>
+</form>
+<p>If you don't have an account, <a th:href="@{/register}">register here</a>.</p>
 </body>
 </html>
