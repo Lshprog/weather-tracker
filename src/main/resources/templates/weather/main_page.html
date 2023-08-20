@@ -6,5 +6,8 @@
 </head>
 <body>
 <h1>Main page</h1>
+<div th:if="${username}" >
+    <p th:text="'Username: ' + ${username}"></p>
+</div>
 </body>
 </html>
