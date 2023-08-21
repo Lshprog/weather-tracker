@@ -22,7 +22,7 @@ class UserRepositoryTest {
     @Transactional
     void testSaveUser(){
         User saveduser = userRepository.save(User.builder()
-                .login("smthelse")
+                .username("smthelse")
                 .password("2231")
                 .build());
 
