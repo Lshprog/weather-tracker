@@ -37,3 +37,6 @@ build/
 
 ### MySQL properties ###
 src/main/resources/application-localmysql.properties
+
+### External api ###
+src/main/resources/externalapis-setup.properties
