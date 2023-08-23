@@ -1,5 +1,6 @@
 package com.example.weathertracker.apiexternal.services;
 
+import com.example.weathertracker.apiexternal.common.HourlyForecast;
 import com.example.weathertracker.apiexternal.common.WeatherConditions;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,31 +19,64 @@ public class WeatherDeserializationService {
         this.objectMapper = objectMapper;
     }
 
-    public WeatherConditions deserializeAndExtractWeatherConditions(String jsonString) {
+    private WeatherConditions extractWeatherConditions(JsonNode currentNode){
+
+        double temperatureC = currentNode.path("temp_c").asDouble();
+        double temperatureF = currentNode.path("temp_f").asDouble();
+        int humidity = currentNode.path("humidity").asInt();
+        int cloud = currentNode.path("cloud").asInt();
+        double windSpeedMph = currentNode.path("wind_mph").asDouble();
+        double windSpeedKph = currentNode.path("wind_kph").asDouble();
+        String weatherSummary = currentNode.path("condition").path("text").asText();
+
+        return WeatherConditions.builder()
+                .temperature_c(temperatureC)
+                .temperature_f(temperatureF)
+                .humidity(humidity)
+                .cloud(cloud)
+                .windSpeed_mph(windSpeedMph)
+                .windSpeed_kph(windSpeedKph)
+                .weather_summary(weatherSummary)
+                .build();
+
+    }
+
+    public WeatherConditions deserializeAndExtractCurrentWeatherConditions(String jsonString) {
         try {
-            JsonNode rootNode = objectMapper.readTree(jsonString);
+            JsonNode rootNode = objectMapper.readTree(jsonString).path("current");
+            return extractWeatherConditions(rootNode);
 
-            double temperatureC = rootNode.path("current").path("temp_c").asDouble();
-            double temperatureF = rootNode.path("current").path("temp_f").asDouble();
-            int humidity = rootNode.path("current").path("humidity").asInt();
-            int cloud = rootNode.path("current").path("cloud").asInt();
-            double windSpeedMph = rootNode.path("current").path("wind_mph").asDouble();
-            double windSpeedKph = rootNode.path("current").path("wind_kph").asDouble();
-            String weatherSummary = rootNode.path("current").path("condition").path("text").asText();
-
-            return WeatherConditions.builder()
-                    .temperature_c(temperatureC)
-                    .temperature_f(temperatureF)
-                    .humidity(humidity)
-                    .cloud(cloud)
-                    .windSpeed_mph(windSpeedMph)
-                    .windSpeed_kph(windSpeedKph)
-                    .weather_summary(weatherSummary)
-                    .build();
         } catch (IOException e) {
-            // Handle deserialization error if needed
+
             return null;
         }
+    }
+
+    public HourlyForecast deserializeAndExtractHourlyForecast(String jsonString) {
+
+        try {
+
+            JsonNode rootNode = objectMapper.readTree(jsonString).path("forecast");
+
+            HourlyForecast hourlyForecast = new HourlyForecast();
+
+            for (JsonNode forecastDay : rootNode.path("forecastday")) {
+                for (JsonNode forecastHour : forecastDay.path("hour")) {
+
+                    String time = forecastHour.path("time").asText();
+                    WeatherConditions weather = extractWeatherConditions(forecastHour);
+
+                    hourlyForecast.addForecast(time, weather);
+
+                }
+            }
+
+            return hourlyForecast;
+
+        } catch (IOException e) {
+            return null;
+        }
+
     }
 
 }
