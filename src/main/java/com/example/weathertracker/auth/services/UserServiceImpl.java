@@ -5,6 +5,7 @@ import com.example.weathertracker.auth.common.exceptions.UserAlreadyExistsExcept
 import com.example.weathertracker.auth.dto.UserDTO;
 import com.example.weathertracker.auth.entities.User;
 import com.example.weathertracker.auth.repositories.UserRepository;
+import com.example.weathertracker.weather.entities.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -74,6 +76,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUserName(String userName) {
         return userRepository.findByUsername(userName);
+    }
+
+    @Override
+    public Set<Location> getLocationsForUser(UUID id) {
+        return userRepository.findLocationsByUserId(id);
     }
 
     @Override

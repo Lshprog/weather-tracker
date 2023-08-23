@@ -26,8 +26,13 @@ public class Location {
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID id;
 
+    @Column(length = 60, columnDefinition = "varchar(60)", nullable = false, unique = true)
     private String name;
+
+    @Column(length = 13, columnDefinition = "double(13,10)", nullable = false)
     private double latitude;
+
+    @Column(length = 13, columnDefinition = "double(13,10)", nullable = false)
     private double longitude;
 
     @ManyToMany(mappedBy = "locations")

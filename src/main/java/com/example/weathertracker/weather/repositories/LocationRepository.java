@@ -7,4 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 public interface LocationRepository extends JpaRepository<Location, UUID> {
+
+    Location findByName(String name);
+
 }

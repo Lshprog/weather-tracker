@@ -2,10 +2,12 @@ package com.example.weathertracker.auth.services;
 
 import com.example.weathertracker.auth.dto.UserDTO;
 import com.example.weathertracker.auth.entities.User;
+import com.example.weathertracker.weather.entities.Location;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 public interface UserService extends UserDetailsService {
@@ -25,5 +27,7 @@ public interface UserService extends UserDetailsService {
     User saveNewUser(UserDTO newuser);
 
     public User findByUserName(String userName);
+
+    public Set<Location> getLocationsForUser(UUID id);
 
 }
