@@ -23,7 +23,7 @@ class WeatherAPIServiceTest {
     @BeforeEach
     void setUp() {
 
-        location1 = new LocationDTO("London", 51.509865, -0.118092);
+        location1 = new LocationDTO("Sheopur", 25.58, 76.64);
 
     }
 
@@ -40,4 +40,20 @@ class WeatherAPIServiceTest {
         await().untilTrue(atomicBoolean);
 
     }
+
+    @Test
+    void testGetHourlyForecastWeatherAtLocation(){
+
+        AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+
+        weatherAPIService.getForecastFromLocation(location1).subscribe(dto -> {
+            System.out.println(dto.getForecast("2023-08-23 02:00").getHumidity());
+            atomicBoolean.set(true);
+        });
+
+        await().untilTrue(atomicBoolean);
+
+    }
+
+
 }
