@@ -1,6 +1,6 @@
 package com.example.weathertracker.auth.config;
 
-import com.example.weathertracker.auth.services.UserService;
+import com.example.weathertracker.auth.services.IUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -16,9 +16,9 @@ public class UserConfig {
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider(UserService userService){
+    public DaoAuthenticationProvider authenticationProvider(IUserService IUserService){
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-        auth.setUserDetailsService(userService);
+        auth.setUserDetailsService(IUserService);
         auth.setPasswordEncoder(encoder());
         return auth;
     }

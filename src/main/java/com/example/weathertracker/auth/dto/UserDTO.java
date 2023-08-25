@@ -13,11 +13,11 @@ import jakarta.validation.constraints.*;
 public class UserDTO {
     //private UUID id;
     @NotBlank(message = "Username cannot be empty")
-    @Size(min=1, message = "is required")
+    @Size(min=1, max = 12, message = "is required")
     private String username;
 
     @NotBlank(message = "Password cannot be empty")
-    @Size(min=1, message = "is required")
+    @Size(min=1, max = 60,  message = "is required")
     private String password;
     //private Set<Location> locations;
 

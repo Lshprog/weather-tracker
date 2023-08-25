@@ -23,7 +23,7 @@ public class Location {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
+    @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false, unique = true)
     private UUID id;
 
     @Column(length = 60, columnDefinition = "varchar(60)", nullable = false, unique = true)

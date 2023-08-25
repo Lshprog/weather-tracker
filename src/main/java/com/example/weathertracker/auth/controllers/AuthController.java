@@ -1,13 +1,9 @@
 package com.example.weathertracker.auth.controllers;
 
-import java.util.logging.Logger;
-
 import com.example.weathertracker.auth.common.exceptions.UserAlreadyExistsException;
 import com.example.weathertracker.auth.dto.UserDTO;
 import com.example.weathertracker.auth.entities.User;
 import com.example.weathertracker.auth.services.UserService;
-import com.example.weathertracker.auth.services.UserServiceImpl;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +14,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("auth")
 public class AuthController {
 
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Autowired
-    public AuthController(UserServiceImpl userService) {
+    public AuthController(UserService userService) {
         this.userService = userService;
     }
 
