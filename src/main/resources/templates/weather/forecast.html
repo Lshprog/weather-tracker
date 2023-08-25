@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="main_page :: head">
+  <title>Forecast</title>
+</head>
+<body>
+<header th:replace="main_page :: header"></header>
+<div>
+  <!-- Specific content for each page -->
+  <h2 th:text="${pageTitle}">Default Page Title</h2>
+  <p th:text="${pageContent}">Default content</p>
+  <!-- Additional content goes here -->
+</div>
+
+<footer th:replace="main_page :: footer"></footer>
+</body>
+</html>

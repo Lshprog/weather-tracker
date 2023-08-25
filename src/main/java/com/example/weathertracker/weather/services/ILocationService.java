@@ -24,7 +24,7 @@ public interface ILocationService {
 
     void patchLocationById(UUID id, LocationDTO location);
 
-    User saveNewLocation(LocationDTO newlocation);
+    Location saveNewLocation(LocationDTO newlocation);
 
     Location findByName(String name);
 

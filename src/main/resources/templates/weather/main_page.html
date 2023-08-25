@@ -1,13 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:fragment="head">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.5.0/css/bootstrap.min.css}">
+    <!-- Include Bootstrap JS (optional) -->
+    <script th:src="@{/webjars/bootstrap/5.5.0/js/bootstrap.min.js}"></script>
 </head>
 <body>
-<h1>Main page</h1>
-<div th:if="${username}" >
-    <p th:text="'Username: ' + ${username}"></p>
+<!-- Header -->
+<header th:fragment="header" class="bg-primary text-white text-center py-2">
+    <h1>Weather App</h1>
+
+    <div th:if="${username}" >
+        <p th:text="'Username: ' + ${username}"></p>
+    </div>
+
+</header>
+
+<!-- Content -->
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Content specific to each page will be inserted here -->
+
+        </div>
+        <div class="col-lg-4">
+            <!-- Sidebar or additional content -->
+        </div>
+    </div>
 </div>
+
+<!-- Footer -->
+<footer th:fragment="footer" class="bg-secondary text-white text-center py-2 mt-4">
+    &copy; 2023 Weather App
+</footer>
+
+
 </body>
 </html>
