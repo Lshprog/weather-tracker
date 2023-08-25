@@ -24,4 +24,5 @@ public class WeatherController {
         return "weather/main_page";
     }
 
+
 }
