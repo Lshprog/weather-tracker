@@ -47,7 +47,7 @@ class WeatherAPIServiceTest {
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
 
         weatherAPIService.getForecastFromLocation(location1).subscribe(dto -> {
-            System.out.println(dto.getForecast("2023-08-23 02:00").getHumidity());
+            System.out.println(dto.getForecast("2023-08-25 02:00").getHumidity());
             atomicBoolean.set(true);
         });
 
