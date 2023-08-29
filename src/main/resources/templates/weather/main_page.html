@@ -50,12 +50,19 @@
     <!-- Search results will be populated here -->
 </div>
 
-<!-- Content -->
+<!-- Content section -->
 <div class="container mt-4">
     <div class="row">
         <div class="col-lg-8">
-            <!-- Content specific to each page will be inserted here -->
-
+            <!-- Display user's locations -->
+            <h2>Your Locations</h2>
+            <ul id="userLocationsList">
+                <li th:each="location : ${userLocations}">
+                    <span th:text="${location.name}"></span>
+                    (Lat: <span th:text="${location.lat}"></span>,
+                    Long: <span th:text="${location.lon}"></span>)
+                </li>
+            </ul>
         </div>
         <div class="col-lg-4">
             <!-- Sidebar or additional content -->
