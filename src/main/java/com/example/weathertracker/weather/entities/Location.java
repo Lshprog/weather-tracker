@@ -38,5 +38,15 @@ public class Location {
     @ManyToMany(mappedBy = "locations")
     private Set<User> users = new HashSet<>();
 
+    public void addUser(User user){
+        this.users.add(user);
+        user.getLocations().add(this);
+    }
+
+    public void removeUser(User user){
+        this.users.remove(user);
+        user.getLocations().remove(this);
+    }
+
 
 }
