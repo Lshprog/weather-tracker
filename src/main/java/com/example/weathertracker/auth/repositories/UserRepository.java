@@ -14,4 +14,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("SELECT u.locations FROM User u WHERE u.id = :userId")
     Set<Location> findLocationsByUserId(UUID userId);
 
+    @Query("SELECT u.locations FROM User u WHERE u.username = :username")
+    Set<Location> findLocationsByUsername(String username);
+
 }
