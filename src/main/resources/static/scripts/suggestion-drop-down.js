@@ -50,6 +50,45 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    function addLocation(location) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://localhost:8080/weather/main_page/addLocation");
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.responseType = "json";
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    // Add the new location to the DOM
+                    const newLocation = xhr.response;
+                    displayNewLocation(newLocation);
+                } else {
+                    console.log(`Error: ${xhr.status}`);
+                }
+            }
+        };
+
+        xhr.send(JSON.stringify(location));
+    }
+
+    function displayNewLocation(newLocation) {
+        const locationDiv = document.createElement('div');
+        locationDiv.classList.add('location-row');
+        locationDiv.innerHTML = `
+        <div class="location-name">${newLocation.display_name}</div>
+        <div class="location-coordinates">Lat: ${newLocation.lat}, Long: ${newLocation.lon}</div>
+        <button class="btn btn-primary add-button">Add</button>
+    `;
+
+        const addButton = locationDiv.querySelector('.add-button');
+        addButton.addEventListener('click', function() {
+            addLocation(newLocation);
+        });
+
+        searchResults.appendChild(locationDiv);
+    }
+
+
 });
 
 
