@@ -10,4 +10,6 @@ public interface LocationRepository extends JpaRepository<Location, UUID> {
 
     Location findByName(String name);
 
+    Location findByLatitudeAndLongitude(double latitude, double longitude);
+
 }
