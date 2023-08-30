@@ -30,4 +30,8 @@ public interface IUserService extends UserDetailsService {
 
     Set<Location> getLocationsForUser(UUID id);
 
+    Set<Location> getLocationsForUser(String username);
+
+    Location saveLocationToUserList(Location location, String username);
+
 }

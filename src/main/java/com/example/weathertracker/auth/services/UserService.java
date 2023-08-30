@@ -5,6 +5,7 @@ import com.example.weathertracker.auth.common.exceptions.UserAlreadyExistsExcept
 import com.example.weathertracker.auth.dto.UserDTO;
 import com.example.weathertracker.auth.entities.User;
 import com.example.weathertracker.auth.repositories.UserRepository;
+import com.example.weathertracker.weather.dto.LocationDTO;
 import com.example.weathertracker.weather.entities.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -81,6 +82,20 @@ public class UserService implements IUserService {
     @Override
     public Set<Location> getLocationsForUser(UUID id) {
         return userRepository.findLocationsByUserId(id);
+    }
+
+    @Override
+    public Set<Location> getLocationsForUser(String username) { return userRepository.findLocationsByUsername(username); }
+
+    @Override
+    public Location saveLocationToUserList(Location location, String username) {
+        // Need handle if already exist such location (or not )
+
+        User user = userRepository.findByUsername(username);
+
+        user.addLocation(location);
+
+        return location;
     }
 
     @Override
