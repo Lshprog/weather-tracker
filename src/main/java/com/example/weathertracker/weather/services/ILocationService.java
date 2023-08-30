@@ -1,7 +1,5 @@
 package com.example.weathertracker.weather.services;
 
-import com.example.weathertracker.auth.dto.UserDTO;
-import com.example.weathertracker.auth.entities.User;
 import com.example.weathertracker.weather.dto.LocationDTO;
 import com.example.weathertracker.weather.entities.Location;
 
@@ -27,5 +25,7 @@ public interface ILocationService {
     Location saveNewLocation(LocationDTO newlocation);
 
     Location findByName(String name);
+
+    Optional<LocationDTO> getLocationByLatitudeAndLongitude(double latitude, double longitude);
 
 }
