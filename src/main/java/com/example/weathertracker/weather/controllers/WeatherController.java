@@ -1,8 +1,7 @@
 package com.example.weathertracker.weather.controllers;
 
-import com.example.weathertracker.auth.services.IUserService;
-import com.example.weathertracker.weather.services.ILocationService;
-import jakarta.servlet.http.HttpSession;
+import com.example.weathertracker.auth.services.UserService;
+import com.example.weathertracker.weather.services.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,11 +15,11 @@ import org.springframework.web.context.request.WebRequest;
 @RequestMapping("weather")
 public class WeatherController {
 
-    private final ILocationService locationService;
-    private final IUserService userService;
+    private final LocationService locationService;
+    private final UserService userService;
 
     @Autowired
-    public WeatherController(ILocationService locationService, IUserService userService) {
+    public WeatherController(LocationService locationService, UserService userService) {
         this.locationService = locationService;
         this.userService = userService;
     }

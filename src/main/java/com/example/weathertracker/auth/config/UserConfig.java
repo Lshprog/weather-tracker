@@ -1,6 +1,5 @@
 package com.example.weathertracker.auth.config;
 
-import com.example.weathertracker.auth.services.IUserService;
 import com.example.weathertracker.auth.services.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

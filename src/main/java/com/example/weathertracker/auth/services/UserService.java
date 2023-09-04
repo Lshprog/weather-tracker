@@ -1,116 +1,37 @@
 package com.example.weathertracker.auth.services;
 
-
-import com.example.weathertracker.auth.common.exceptions.UserAlreadyExistsException;
 import com.example.weathertracker.auth.dto.UserDTO;
 import com.example.weathertracker.auth.entities.User;
-import com.example.weathertracker.auth.repositories.UserRepository;
-import com.example.weathertracker.weather.dto.LocationDTO;
 import com.example.weathertracker.weather.entities.Location;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
-@Service
-public class UserService implements IUserService {
+public interface UserService extends UserDetailsService {
 
-    private PasswordEncoder passwordEncoder;
-    private UserRepository userRepository;
+    List<UserDTO> listUsers();
 
-    @Autowired
-    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository) {
-        this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
-    }
+    Optional<UserDTO> getUserById(UUID id);
 
-    @Override
-    public List<UserDTO> listUsers() {
-        return null;
-    }
+    Optional<UserDTO> getUserByUsername(String username);
 
-    @Override
-    public Optional<UserDTO> getUserById(UUID id) {
-        return Optional.empty();
-    }
+    void updateUserById(UUID id, UserDTO user);
 
-    @Override
-    public Optional<UserDTO> getUserByUsername(String username) {
-        return Optional.empty();
-    }
+    void deleteById(UUID id);
 
-    @Override
-    public void updateUserById(UUID id, UserDTO user) {
+    void patchUserById(UUID id, UserDTO user);
 
-    }
+    User saveNewUser(UserDTO newuser);
 
-    @Override
-    public void deleteById(UUID id) {
-        userRepository.deleteById(id);
-    }
+    User findByUserName(String userName);
 
-    @Override
-    public void patchUserById(UUID id, UserDTO user) {
+    Set<Location> getLocationsForUser(UUID id);
 
-    }
+    Set<Location> getLocationsForUser(String username);
 
-    @Override
-    public User saveNewUser(UserDTO newuser) throws UserAlreadyExistsException{
+//    Location saveLocationToUserList(Location location, String username);
 
-        if(userRepository.findByUsername(newuser.getUsername())!=null){
-            throw new UserAlreadyExistsException("User with this username already exists.");
-        }
-
-        User user = new User();
-        user.setUsername(newuser.getUsername());
-        user.setPassword(passwordEncoder.encode(newuser.getPassword()));
-
-        return userRepository.save(user);
-    }
-
-    @Override
-    public User findByUserName(String userName) {
-        return userRepository.findByUsername(userName);
-    }
-
-    @Override
-    public Set<Location> getLocationsForUser(UUID id) {
-        return userRepository.findLocationsByUserId(id);
-    }
-
-    @Override
-    public Set<Location> getLocationsForUser(String username) { return userRepository.findLocationsByUsername(username); }
-
-    @Override
-    public Location saveLocationToUserList(Location location, String username) {
-        // Need handle if already exist such location (or not )
-
-        User user = userRepository.findByUsername(username);
-
-        user.addLocation(location);
-
-        return location;
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
-
-        if(user==null){
-            throw new UsernameNotFoundException("No user found with username: " + username);
-        }
-
-        System.out.println("Works");
-
-        return org.springframework.security.core.userdetails.User
-                .withUsername(user.getUsername())
-                .password(user.getPassword())
-                .build();
-    }
 }
